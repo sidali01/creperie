@@ -1,0 +1,217 @@
+{
+	"info": {
+		"_postman_id": "9ce73aaa-99df-4858-8bb2-1e7d90e954d6",
+		"name": "collection run",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34757862",
+		"_collection_link": "https://blue-equinox-208741.postman.co/workspace/workspaceTest~045986b4-99ef-4852-bde2-c4bb8a90f0c9/collection/34757862-9ce73aaa-99df-4858-8bb2-1e7d90e954d6?action=share&source=collection_link&creator=34757862"
+	},
+	"item": [
+		{
+			"name": "creation client",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"succes post request\", function () {\r",
+							"    pm.expect(pm.response.to.have.status(201));\r",
+							"});\r",
+							"if (pm.response.to.have.status(201))\r",
+							"    {\r",
+							"        var jsonData = pm.response.json();\r",
+							"        pm.collectionVariables.set(\"iddriver\",jsonData.id)\r",
+							"\r",
+							"        console.info(`jai créer mon nouveau driver ${jsonData.name} qui pocede une voiture ${jsonData.car} qui a l'id ${jsonData.id}`)\r",
+							"          console.info('deuxieme methode')\r",
+							"        console.info('mon driver '+ jsonData.name + ' avec la voiture ' +jsonData.car + ' qui a lid '+jsonData.id)\r",
+							"          \r",
+							"\r",
+							"    }\r",
+							"    else\r",
+							"    {console.info('driver non crée')\r",
+							"    }"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"name\": \"cour runner\",\r\n        \"car\": \"ferrari\",\r\n        \"address\": [\r\n            {\r\n                \"num\": 15,\r\n                \"NomRue\": \"rue de rivoli\",\r\n                \"ville\": \"rome\"\r\n            }\r\n        ],\r\n        \"experience\": false,\r\n        \"ville\": \"rome\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://6399e35616b0fdad774cf364.mockapi.io/testapi/api/v1/drivers/",
+					"protocol": "https",
+					"host": [
+						"6399e35616b0fdad774cf364",
+						"mockapi",
+						"io"
+					],
+					"path": [
+						"testapi",
+						"api",
+						"v1",
+						"drivers",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "modifier nom",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    if(pm.response.to.have.status(200))\r",
+							"console.info('le driver '+pm.collectionVariables.get('iddriver')+'a ete mis à jour avec succes ')\r",
+							"else\r",
+							"console.info(\"le driver '+pm.collectionVariables.get('iddriver')+' n/'a pas été mis à jour\")\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"name\": \"runner postman\",\r\n        \"car\": \"bmw\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://6399e35616b0fdad774cf364.mockapi.io/testapi/api/v1/drivers/{{iddriver}}",
+					"protocol": "https",
+					"host": [
+						"6399e35616b0fdad774cf364",
+						"mockapi",
+						"io"
+					],
+					"path": [
+						"testapi",
+						"api",
+						"v1",
+						"drivers",
+						"{{iddriver}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get id clients",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Your test name\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.name).to.eql(\"runner postman\");\r",
+							"    pm.expect(jsonData.car).to.eql(\"bmw\")\r",
+							"});\r",
+							"console.info(\"jai bien trouvé le driver avec id\"+pm.collectionVariables.get('iddriver'))"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://6399e35616b0fdad774cf364.mockapi.io/testapi/api/v1/drivers/{{iddriver}}",
+					"protocol": "https",
+					"host": [
+						"6399e35616b0fdad774cf364",
+						"mockapi",
+						"io"
+					],
+					"path": [
+						"testapi",
+						"api",
+						"v1",
+						"drivers",
+						"{{iddriver}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "suppression du client",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"if(pm.response.to.have.status(200))\r",
+							"console.info(\"le driver avec id\"+pm.collectionVariables.get('iddriver')+ \"a ete supprimé\")\r",
+							"else\r",
+							"console.info(\"le driver avec id\"+pm.collectionVariables.get('iddriver')+ \"n'a pas ete supprimé\")"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://6399e35616b0fdad774cf364.mockapi.io/testapi/api/v1/drivers/{{iddriver}}",
+					"protocol": "https",
+					"host": [
+						"6399e35616b0fdad774cf364",
+						"mockapi",
+						"io"
+					],
+					"path": [
+						"testapi",
+						"api",
+						"v1",
+						"drivers",
+						"{{iddriver}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "iddriver",
+			"value": ""
+		}
+	]
+}
